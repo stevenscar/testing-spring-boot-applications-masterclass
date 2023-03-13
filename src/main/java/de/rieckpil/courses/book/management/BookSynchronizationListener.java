@@ -31,13 +31,12 @@ public class BookSynchronizationListener {
     }
 
     if (bookRepository.findByIsbn(isbn) != null) {
-      LOG.debug("Book with isbn '{}' is already present, rejecting it", isbn);
+      LOG.warn("Book with isbn '{}' is already present, rejecting it", isbn);
       return;
     }
 
     Book book = openLibraryApiClient.fetchMetadataForBook(isbn);
     book = bookRepository.save(book);
-    System.out.println(book);
 
     LOG.info("Successfully stored new book '{}'", book);
   }
